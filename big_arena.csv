@@ -1,0 +1,11 @@
+event,section,row,startSeat,endSeat,cost,consecutivity
+curling,A,1,2,19500,500,even
+curling,A,2,2,19500,500,even
+curling,A,1,19502,20000,1,even
+curling,A,2,19502,20000,1,even
+
+
+
+
+
+
