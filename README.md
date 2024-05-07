@@ -20,7 +20,7 @@ A large part of this solution relies on culling entire sections based on cheap c
 
 I don't have the exact stats for section sizes at AT&T, but based on some rough estimation let's say the average section holds 500 seats. This would imply there are 200 sections total (this seems roughly accurate)
 
-On a test dataset of 200 section, with 1 row of 500 seats per section, where all seats are out of budget until the last logical section wherein seats 450..500 are within budget, the execution time is practically instant. 
+On a test dataset of 200 sections, with 1 row of 500 seats per section, where all seats are out of budget until the last logical section wherein seats 450..500 are within budget, the execution time is practically instant. 
 There are no noticeable space leaks that I can tell.
 
 As it stands I don't see the immediate need to build out an extensive benchmarking suite. Perhaps as more hard requirements roll in, but that's for the future.
