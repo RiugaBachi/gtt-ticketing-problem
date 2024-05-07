@@ -82,10 +82,17 @@ subslicesOf n xs
   | length xs >= n = take n xs : subslicesOf n (drop 1 xs)
   | otherwise = []
 
--- We score them based on their closeness to the start of the row.
---   N.B. This can be expanded to be a measure of distance from the center of a row if we know the length of the row.
---        That way, we can treat it as a score of distance from either end (higher = better), which more accurately
---        models our requirements.
+-- | Given a @partySize@, @budget@, and a set of @availableSeats@, 
+--   find the most optimal set of single-row adjacent seats or piggyback seats.
+--
+--   Preference will be given to adjacent seats. If those cannot be found,
+--   then piggyback seats will be searched for instead.
+--
+--   Furthermore, seats near the ends of a section (closest to seat number 0)
+--   will be prioritized when available. This takes precedence over optimizing for
+--   lowest cost.
+--
+--   Returns @Nothing@ if no seats within the requisite criteria can be found.
 findOptimalSeating 
   :: Int
   -- ^ Size of the party
@@ -254,6 +261,7 @@ findOptimalSeating partySize budget availableSeats =
     canFitWithinBudget :: [Seat] -> Bool
     canFitWithinBudget seats = sum (seatPrice <$> take partySize (sortOn seatPrice seats)) < budget
 
+-- | Hastily crapped together but it'll do
 visualizeSeating :: [Seat] -> IO ()
 visualizeSeating seats = do
   let rows = sort $ nub $ seatRow <$> seats
@@ -269,7 +277,7 @@ main :: IO ()
 main = do
   dataFile <- B.readFile "data.csv"
   let (_, slices) = either (error "CSV data malformed") id $ Csv.decodeByName @SeatingSlice dataFile 
-  let seats = maybe [] id $ findOptimalSeating 8 210.43 $ (\x -> x <> [SeatingSlice "curling" (section $ last x) 1 450 500 1 Even]) $ zipWith (\t csv -> csv { section = T.pack $ show t }) [1..200] $ cycle $ V.toList slices
+  let seats = maybe [] id $ findOptimalSeating 7 210.32 $ V.toList slices
   putStrLn $ "Total price: " <> show (sum $ seatPrice <$> seats)
   forM_ seats $ putStrLn . show
   visualizeSeating seats
