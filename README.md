@@ -1,6 +1,6 @@
 # GTT Ticketing Problem
 
-Origin jsfiddle: https://jsfiddle.net/m2rz06te/
+Original jsfiddle: https://jsfiddle.net/m2rz06te/
 
 # Assumptions
 
