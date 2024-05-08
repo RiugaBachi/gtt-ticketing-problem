@@ -13,16 +13,14 @@ import Control.Monad
 import Data.Maybe
 import Data.Functor ((<&>))
 import Data.Function
-import Data.List (sortOn, groupBy, find, nub, nubBy, sort, (\\), permutations, minimumBy, maximumBy)
+import Data.List (sortOn, groupBy, find, nub, nubBy, sort, (\\))
 import Data.Bifunctor (first, second)
 import Data.ByteString.Lazy qualified as B
-import Data.Set qualified as S
 import Data.Csv qualified as Csv
 import Data.Vector qualified as V
 import Data.Map.Lazy (Map)
 import Data.Map.Lazy qualified as M
 import Data.Text (Text)
-import Data.Text qualified as T
 
 -- | Didn't feel like adding Relude for this
 dup :: a -> (a, a)
@@ -212,17 +210,6 @@ findOptimalSeating partySize budget availableSeats =
     partitionRows :: [Seat] -> [[Seat]]
     partitionRows = groupBy ((==) `on` seatRow) . sortOn seatRow 
 
-    -- | Groups a list of seats on the same row into continuous segments of adjacent seats
-    partitionContinuousSegments :: [Seat] -> [[Seat]]
-    partitionContinuousSegments [] = []
-    partitionContinuousSegments seats = 
-      let
-        sortedBySeatNumber = sortOn seatNumber seats
-        missingSeatNumbers = allMissingSeatNumbers seats
-        nextMissingSeatNumberAfter n = maybe maxBound id $ find (> seatNumber n) missingSeatNumbers
-      in
-        groupBy (\start current -> seatNumber current < nextMissingSeatNumberAfter start) sortedBySeatNumber
-
     -- | Generate all missing seat numbers in a list of seats, assuming the minimum and maximum
     --   seat numbers in the list bound the range.
     allMissingSeatNumbers :: [Seat] -> [Int]
@@ -261,7 +248,7 @@ findOptimalSeating partySize budget availableSeats =
     canFitWithinBudget :: [Seat] -> Bool
     canFitWithinBudget seats = sum (seatPrice <$> take partySize (sortOn seatPrice seats)) < budget
 
--- | Hastily crapped together but it'll do
+-- | Hastily scrapped together but it'll do
 visualizeSeating :: [Seat] -> IO ()
 visualizeSeating seats = do
   let rows = sort $ nub $ seatRow <$> seats
