@@ -57,7 +57,7 @@ For AT&T:
 ![AT&T Results](https://i.imgur.com/GDEy4TE.png)
 
 For Yokohama:
-- Both benchmark scenarios ran on the order of ~21ms per iteration
+- Both benchmark scenarios ran on the order of ~23ms per iteration
 
 ![Yokohama Results](https://i.imgur.com/TIh8Fy4.png)
 
