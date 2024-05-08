@@ -18,7 +18,7 @@ Original jsfiddle: https://jsfiddle.net/m2rz06te/
 
 I don't believe in premature optimization. This algorithm is for business, and business is rooted in reality.
 
-I have benchmarked this version of the algorithm against models of AT&T Stadium (regarded as the largest in NA) and Yokohama Arena (no particular reason, just the largest that I've been to personally).
+I have benchmarked this version of the algorithm against models of AT&T Stadium (regarded as the largest in NA) and Yokohama Arena (no particular reason, just the largest that I've been to personally), and overall performance seems reasonable for the purposes of a webapp.
 
 
 A large part of this solution relies on culling entire sections based on cheap criteria. I took inspiration from how collision detection is implemented in most games (hierarchy of boxes/cubes).
