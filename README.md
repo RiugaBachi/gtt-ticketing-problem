@@ -61,6 +61,10 @@ Assuming the intended usage is in a web application, this is an acceptable wait 
 
 There are ways we can optimize further of course (subsecting sections); we can even profile for specific hotspots and see what we can do there. But overall memory usage seems good and I feel confident that this will suffice for an MVP.
 
+```
+cabal run combinations -O2 -- -L 30 --regress cycles:time -o results.html
+```
+
 # Testing
 
 I have not yet implemented a test suite for this; but if I were to approach it in the future I would:
