@@ -1,10 +1,12 @@
 # GTT Ticketing Problem
 
-Origin jsfiddle: https://jsfiddle.net/m2rz06te/
+Original jsfiddle: https://jsfiddle.net/m2rz06te/
 
 # Assumptions
 
 1. Users prefer single-row adjacent seats (Condition 1) wherever possible.  This is not explicitly stated, but it is an observation I've made in real life. Perhaps it's just me, but seating the group on the same row is generally preferred even if you're marginally farther from an end.
+2. If two data rows in the CSV declare duplicate seating, the first (topmost) row is kept and all subsequent duplicates are discarded. A duplicate is defined as a seat with the same section + row + number; different pricing is irrelevant.
+3. Some CSV rows declare, for instance "startingSeat 1, ..., even"; when the consecutivity of a row is even, for instance, we only expand out the even seat numbers declared in that row. So in the case of "startingSeat 1, endingSeat 1, even", the whole row would be discarded. For "startingSeat 1, endingSeat 3, even", we would only expand out a single seat with number=2. This is in line with the common understand of how even/odd seating works in actual theaters and arenas.
 
 # Limitations
 
