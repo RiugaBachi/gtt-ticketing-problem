@@ -52,10 +52,14 @@ The benchmark data was randomized per run; namely:
 - Available of seats (a fixed % were unavailable per run)
 
 For AT&T:
-- All 3 benchmark scenarios ran between 134 and 151ms per iteration
+- All 3 benchmark scenarios ran between 134ms~151ms per iteration
+
+![AT&T Results](https://i.imgur.com/GDEy4TE.png)
 
 For Yokohama:
 - Both benchmark scenarios ran on the order of ~21ms per iteration
+
+![Yokohama Results](https://i.imgur.com/TIh8Fy4.png)
 
 Assuming the intended usage is in a web application, this is an acceptable wait time as much of the web runs on a much slower timescale and will likely feel indistinguishable to end users, even in the worst case (AT&T Stadium). Worst case we can add an async loading widget or somesuch.
 
