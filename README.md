@@ -1,5 +1,7 @@
 # GTT Ticketing Problem
 
+"Find all combinations" branch!
+
 Original jsfiddle: https://jsfiddle.net/m2rz06te/
 
 # Assumptions
@@ -16,22 +18,48 @@ Original jsfiddle: https://jsfiddle.net/m2rz06te/
 
 I don't believe in premature optimization. This algorithm is for business, and business is rooted in reality.
 
-We can take AT&T Stadium (capacity=~100k) has the largest real-world scenario for our case.
+I have benchmarked this version of the algorithm against models of AT&T Stadium (regarded as the largest in NA) and Yokohama Arena (no particular reason, just the largest that I've been to personally).
+
 
 A large part of this solution relies on culling entire sections based on cheap criteria. I took inspiration from how collision detection is implemented in most games (hierarchy of boxes/cubes).
-
-I don't have the exact stats for section sizes at AT&T, but based on some rough estimation let's say the average section holds 500 seats. This would imply there are 200 sections total (this seems roughly accurate)
-
-On a test dataset of 200 sections, with 1 row of 500 seats per section, where all seats are out of budget until the last logical section wherein seats 450..500 are within budget, the execution time is practically instant. 
-There are no noticeable space leaks that I can tell.
-
-As it stands I don't see the immediate need to build out an extensive benchmarking suite. Perhaps as more hard requirements roll in, but that's for the future.
 
 The advantage of this optimization is we can easily extend it to further subsect the individual sections, much like in collision detection, if in practice they become too large and performance is unacceptable.
 
 Worst case, profile for hotspots, and optimize accordingly.
 
 (Speaking of subsecting, Limitation #1 could potentially be implemented by subsecting a section in half vertically, and running the same algorithms on each subsection in an alternating fashion. We could then measure closeness to the ends as the inverse of distance from the center of a section. It seems to be a concept that's cropping up in more than one way!)
+
+# Benchmarks
+
+The models I used are as follows:
+
+ATT Stadium:
+- Capacity: 100k
+- Based on some rough estimation let's say the average section holds 500 seats
+- This would imply there are 200 sections total (this seems roughly accurate)
+- We can roughly 'cube' the sections and say it's 20 rows of 25 seats, which seems realistic.
+
+Yokohama Arena:
+- Capacity: 17k
+- Eyeballing the floorplan, I chose 20 rows x 25 seats x 34 sections.
+
+Test machine specs: 5800X3D, 32GB DDR4 RAM 3200mhz
+
+My memory never shot past a marginal ~0.06GB increase while running the benchmark so I didn't see the need to profile for space leaks.
+
+The benchmark data was randomized per run; namely: 
+- Price (randomized within a set range)
+- Available of seats (a fixed % were unavailable per run)
+
+For AT&T:
+- All 3 benchmark scenarios ran between 134 and 151ms per iteration
+
+For Yokohama:
+- Both benchmark scenarios ran on the order of ~21ms per iteration
+
+Assuming the intended usage is in a web application, this is an acceptable wait time as much of the web runs on a much slower timescale and will likely feel indistinguishable to end users, even in the worst case (AT&T Stadium). Worst case we can add an async loading widget or somesuch.
+
+There are ways we can optimize further of course (subsecting sections); we can even profile for specific hotspots and see what we can do there. But overall memory usage seems good and I feel confident that this will suffice for an MVP.
 
 # Testing
 
